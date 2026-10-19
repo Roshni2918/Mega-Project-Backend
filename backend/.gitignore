@@ -1,0 +1,13 @@
+# Secrets and local data - never commit these
+.env
+app.db
+*.db
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Trained models (generated files, can be rebuilt)
+ml_artifacts/
+model_store/

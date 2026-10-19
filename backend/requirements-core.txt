@@ -1,0 +1,15 @@
+# Core backend requirements (always needed). The full list with the optional
+# heavy ML libraries (xgboost, catboost, lightgbm, shap) is requirements.txt.
+flask>=3.0
+flask-cors>=4.0
+flask-sqlalchemy>=3.1
+sqlalchemy>=2.0
+pymysql>=1.1
+cryptography>=42.0
+bcrypt>=4.1
+PyJWT>=2.8
+pandas>=2.1
+numpy>=1.26
+scikit-learn>=1.4
+joblib>=1.3
+pytest>=8.0
