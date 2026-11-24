@@ -14,7 +14,10 @@ ARTIFACTS_DIR = os.path.join(ML_FINAL_DIR, "ml_artifacts")
 if ML_FINAL_DIR not in sys.path:
     sys.path.insert(0, ML_FINAL_DIR)
 
-import ml_pipeline as ml
+try:
+    import ml_pipeline as ml
+except ImportError:
+    ml = None
 
 ml_bp = Blueprint("ml", __name__)
 
@@ -22,6 +25,8 @@ _bundle = None
 
 def get_bundle():
     global _bundle
+    if ml is None:
+        return None
     if _bundle is None:
         if os.path.exists(os.path.join(ARTIFACTS_DIR, "model_bundle.joblib")):
             try:
@@ -35,6 +40,8 @@ def get_bundle():
 
 @ml_bp.route("/train", methods=["POST"])
 def train():
+    if ml is None:
+        return jsonify({"error": "ML pipeline not available in this deployment."}), 503
     global _bundle
     data = request.get_json() or {}
     train_rows = data.get("train", [])
@@ -68,6 +75,8 @@ def train():
 
 @ml_bp.route("/predict", methods=["POST"])
 def predict():
+    if ml is None:
+        return jsonify({"error": "ML pipeline not available in this deployment."}), 503
     bundle = get_bundle()
     if not bundle:
         return jsonify({"error": "No trained model bundle available. Please run model training first."}), 400
@@ -108,6 +117,8 @@ def predict():
 
 @ml_bp.route("/predict_batch", methods=["POST"])
 def predict_batch():
+    if ml is None:
+        return jsonify({"error": "ML pipeline not available in this deployment."}), 503
     bundle = get_bundle()
     if not bundle:
         return jsonify({"error": "No trained model bundle available."}), 400
@@ -127,6 +138,8 @@ def predict_batch():
 
 @ml_bp.route("/explain", methods=["POST"])
 def explain():
+    if ml is None:
+        return jsonify({"error": "ML pipeline not available in this deployment."}), 503
     bundle = get_bundle()
     if not bundle:
         return jsonify({"error": "No trained model bundle available."}), 400
@@ -148,6 +161,8 @@ def explain():
 
 @ml_bp.route("/recommend", methods=["POST"])
 def recommend():
+    if ml is None:
+        return jsonify({"error": "ML pipeline not available in this deployment."}), 503
     bundle = get_bundle()
     if not bundle:
         return jsonify({"error": "No trained model bundle available."}), 400
