@@ -12,11 +12,18 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    # Enable CORS for React frontend (default http://localhost:5173 and all origins)
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    # Enable CORS for React frontend (production Vercel domain)
+    # Set CORS_ORIGINS env var on Render to restrict; defaults to production frontend
+    cors_origins = os.getenv("CORS_ORIGINS", "https://injection-molding-quality-ckamdfm8p-roshni2918s-projects.vercel.app")
+    CORS(app, resources={r"/api/*": {"origins": cors_origins}})
 
     # Initialize Database & Tables
-    init_db()
+    # Use try/except to prevent app crash if MySQL is unavailable during deployment
+    # Database will be configured later (migration postponed)
+    try:
+        init_db()
+    except Exception as e:
+        print(f"[APP] Database initialization skipped (will be configured later): {type(e).__name__}")
 
     # Pre-load ML bundle
     bundle = get_bundle()
@@ -51,9 +58,19 @@ def create_app():
     @app.route("/api/health", methods=["GET"])
     def health():
         b = get_bundle()
+        # Determine database status without crashing
+        db_status = "MySQL Disconnected"
+        try:
+            from database import get_session
+            session = get_session()
+            db_status = "MySQL Connected"
+            session.close()
+        except Exception:
+            db_status = "MySQL Disconfigured"
+        
         return jsonify({
-            "status": "healthy",
-            "database": "MySQL Connected",
+            "status": "healthy" if db_status == "MySQL Disconnected" else "degraded",
+            "database": db_status,
             "model_loaded": b is not None,
             "best_model": b.get("best_name") if b else None,
             "selected_features": b.get("selected_features") if b else None,
