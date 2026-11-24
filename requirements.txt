@@ -1,0 +1,17 @@
+Flask>=3.1.0
+flask-cors>=6.0.0
+SQLAlchemy>=2.0.0
+PyMySQL>=1.2.0
+cryptography>=50.0.0
+PyJWT>=2.15.0
+bcrypt>=5.0.0
+python-dotenv>=1.2.0
+scikit-learn>=1.8.0
+pandas>=2.3.0
+numpy>=2.3.0
+joblib>=1.5.0
+xgboost>=3.4.0
+lightgbm>=4.7.0
+catboost>=1.2.0
+shap>=0.54.0
+gunicorn>=21.2.0
