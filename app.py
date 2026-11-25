@@ -58,18 +58,20 @@ def create_app():
     @app.route("/api/health", methods=["GET"])
     def health():
         b = get_bundle()
-        # Determine database status without crashing
+        # Determine database status with a real connection test
         db_status = "MySQL Disconnected"
         try:
-            from database import get_session
-            session = get_session()
-            db_status = "MySQL Connected"
-            session.close()
+            from database import _engine
+            from sqlalchemy import text
+            if _engine is not None:
+                with _engine.connect() as conn:
+                    conn.execute(text("SELECT 1"))
+                    db_status = "MySQL Connected"
         except Exception:
             db_status = "MySQL Disconfigured"
         
         return jsonify({
-            "status": "healthy" if db_status == "MySQL Disconnected" else "degraded",
+            "status": "degraded" if db_status == "MySQL Disconfigured" else "healthy",
             "database": db_status,
             "model_loaded": b is not None,
             "best_model": b.get("best_name") if b else None,
