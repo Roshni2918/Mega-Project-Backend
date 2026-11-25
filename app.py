@@ -13,9 +13,23 @@ def create_app():
     app.config.from_object(Config)
 
     # Enable CORS for React frontend (production Vercel domain)
-    # Set CORS_ORIGINS env var on Render to restrict; defaults to production frontend
-    cors_origins = os.getenv("CORS_ORIGINS", "https://injection-molding-quality-ckamdfm8p-roshni2918s-projects.vercel.app")
-    CORS(app, resources={r"/api/*": {"origins": cors_origins}})
+    # Set CORS_ORIGINS env var on Render as comma-separated list; defaults to production frontend + localhost
+    default_origins = [
+        "https://injection-molding-quality.vercel.app",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ]
+    env_origins = os.getenv("CORS_ORIGINS", "")
+    if env_origins:
+        allowed_origins = [o.strip() for o in env_origins.split(",") if o.strip()]
+    else:
+        allowed_origins = default_origins
+    CORS(app, resources={r"/api/*": {
+        "origins": allowed_origins,
+        "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "supports_credentials": True,
+    }})
 
     # Initialize Database & Tables
     # Use try/except to prevent app crash if MySQL is unavailable during deployment
