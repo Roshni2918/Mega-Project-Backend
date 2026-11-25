@@ -61,12 +61,16 @@ def create_app():
         # Determine database status with a real connection test
         db_status = "MySQL Disconnected"
         try:
-            from database import _engine
+            from database import _engine, _db_explicitly_configured
             from sqlalchemy import text
-            if _engine is not None:
+            if not _db_explicitly_configured:
+                db_status = "MySQL Disconnected"
+            elif _engine is not None:
                 with _engine.connect() as conn:
                     conn.execute(text("SELECT 1"))
                     db_status = "MySQL Connected"
+            else:
+                db_status = "MySQL Disconfigured"
         except Exception:
             db_status = "MySQL Disconfigured"
         

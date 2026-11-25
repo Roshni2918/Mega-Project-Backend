@@ -1,3 +1,4 @@
+import os
 import pymysql
 import bcrypt
 from datetime import datetime, timedelta
@@ -8,6 +9,7 @@ from models import Base, User, Analysis, PredictionLog, DraftAnalysis
 
 _engine = None
 _SessionLocal = None
+_db_explicitly_configured = False
 
 def get_session():
     global _SessionLocal
@@ -16,7 +18,24 @@ def get_session():
     return _SessionLocal()
 
 def init_db():
-    global _engine, _SessionLocal
+    global _engine, _SessionLocal, _db_explicitly_configured
+
+    # Detect whether a database is explicitly configured.
+    # Treat DATABASE_URL as explicit. Treat MYSQL_HOST as explicit only
+    # when the env var was meaningfully provided (not the default).
+    db_explicitly_configured = (
+        bool(Config.DATABASE_URL) or (os.getenv("MYSQL_HOST") is not None)
+    )
+
+    if not db_explicitly_configured:
+        # No explicit database configuration — skip entirely.
+        _db_explicitly_configured = False
+        _engine = None
+        _SessionLocal = None
+        print("[DB] No database configured. Skipping initialization.")
+        return
+
+    _db_explicitly_configured = True
 
     # 1. Ensure MySQL database exists (when using local/direct credentials)
     if not Config.DATABASE_URL:
@@ -41,20 +60,32 @@ def init_db():
     # 2. Connect engine
     db_uri = Config.get_sqlalchemy_uri()
     print(f"[DB] Connecting to MySQL via SQLAlchemy...")
-    _engine = create_engine(
-        db_uri,
-        pool_pre_ping=True,
-        pool_recycle=3600,
-        echo=False
-    )
-    _SessionLocal = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=_engine))
+    try:
+        _engine = create_engine(
+            db_uri,
+            pool_pre_ping=True,
+            pool_recycle=3600,
+            echo=False
+        )
+        _SessionLocal = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=_engine))
 
-    # 3. Create tables
-    Base.metadata.create_all(bind=_engine)
-    print("[DB] Tables created or verified.")
+        # 3. Create tables
+        Base.metadata.create_all(bind=_engine)
+        print("[DB] Tables created or verified.")
 
-    # 4. Seed initial default users
-    seed_users()
+        # 4. Seed initial default users
+        seed_users()
+    except Exception as e:
+        # Clean up partial resources on failure
+        if _engine is not None:
+            try:
+                _engine.dispose()
+            except Exception:
+                pass
+        _engine = None
+        _SessionLocal = None
+        print(f"[DB] Database initialization failed: {e}")
+        raise
 
 def hash_pw(password: str) -> str:
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
