@@ -1,0 +1,361 @@
+{
+  "models": [
+    {
+      "name": "CatBoost",
+      "accuracy": 0.9243986254295533,
+      "precision": 0.9250139857599535,
+      "recall": 0.9259339796345497,
+      "f1": 0.9253958259334603,
+      "cvAccuracy": 0.9448275862068964,
+      "cvF1": 0.9441654950998959,
+      "cvStd": 0.005257002502097422
+    },
+    {
+      "name": "LightGBM",
+      "accuracy": 0.9140893470790378,
+      "precision": 0.9135590277777779,
+      "recall": 0.9150061273456722,
+      "f1": 0.9141697962495617,
+      "cvAccuracy": 0.9336206896551724,
+      "cvF1": 0.9327107158297459,
+      "cvStd": 0.007372257180683748
+    },
+    {
+      "name": "Decision Tree",
+      "accuracy": 0.9140893470790378,
+      "precision": 0.9160701064524404,
+      "recall": 0.9164633563755709,
+      "f1": 0.9155843201183473,
+      "cvAccuracy": 0.8922413793103449,
+      "cvF1": 0.8915860985919195,
+      "cvStd": 0.008492709944659907
+    },
+    {
+      "name": "Random Forest",
+      "accuracy": 0.9106529209621993,
+      "precision": 0.9124367816719637,
+      "recall": 0.9130849779971925,
+      "f1": 0.9121488345400046,
+      "cvAccuracy": 0.9474137931034482,
+      "cvF1": 0.9465164654236219,
+      "cvStd": 0.009565567594959013
+    },
+    {
+      "name": "XGBoost",
+      "accuracy": 0.9037800687285223,
+      "precision": 0.9037638504629995,
+      "recall": 0.9058135067263895,
+      "f1": 0.90405752112799,
+      "cvAccuracy": 0.9387931034482758,
+      "cvF1": 0.9379284164658965,
+      "cvStd": 0.010948932970095655
+    },
+    {
+      "name": "SVM",
+      "accuracy": 0.872852233676976,
+      "precision": 0.8754036606668185,
+      "recall": 0.8782246849740356,
+      "f1": 0.8763832654013726,
+      "cvAccuracy": 0.9017241379310346,
+      "cvF1": 0.9034595853632623,
+      "cvStd": 0.01291666151386566
+    },
+    {
+      "name": "Logistic Regression",
+      "accuracy": 0.8075601374570447,
+      "precision": 0.8172574925646305,
+      "recall": 0.8143650936754199,
+      "f1": 0.8131608665281029,
+      "cvAccuracy": 0.8491379310344829,
+      "cvF1": 0.8518537713425246,
+      "cvStd": 0.026527537981183413
+    }
+  ],
+  "best": "Random Forest",
+  "confusion": {
+    "labels": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "matrix": [
+      [
+        68,
+        6,
+        0,
+        0
+      ],
+      [
+        11,
+        69,
+        2,
+        0
+      ],
+      [
+        0,
+        1,
+        57,
+        4
+      ],
+      [
+        0,
+        0,
+        2,
+        71
+      ]
+    ]
+  },
+  "perClass": [
+    {
+      "key": 1,
+      "label": "Waste",
+      "precision": 0.8607594936708861,
+      "recall": 0.918918918918919,
+      "f1": 0.8888888888888888,
+      "support": 74
+    },
+    {
+      "key": 2,
+      "label": "Acceptable",
+      "precision": 0.9078947368421053,
+      "recall": 0.8414634146341463,
+      "f1": 0.8734177215189873,
+      "support": 82
+    },
+    {
+      "key": 3,
+      "label": "Target",
+      "precision": 0.9344262295081968,
+      "recall": 0.9193548387096774,
+      "f1": 0.926829268292683,
+      "support": 62
+    },
+    {
+      "key": 4,
+      "label": "Inefficient",
+      "precision": 0.9466666666666667,
+      "recall": 0.9726027397260274,
+      "f1": 0.9594594594594594,
+      "support": 73
+    }
+  ],
+  "selectedFeatures": [
+    "ZUx - Cycle time",
+    "ZDx - Plasticizing time",
+    "APVs - Specific injection pressure peak value",
+    "time_to_fill",
+    "Mold temperature",
+    "SKx - Closing force"
+  ],
+  "ranking": [
+    {
+      "feature": "ZUx - Cycle time",
+      "anova_f": 10925.299399510948,
+      "mutual_info": 0.9264786062367112,
+      "abs_pearson": 0.8634241806885405,
+      "rf_importance": 0.16877600537658075,
+      "rank_anova_f": 1.0,
+      "rank_mutual_info": 3.0,
+      "rank_abs_pearson": 1.0,
+      "rank_rf_importance": 1.0,
+      "avg_rank": 1.5
+    },
+    {
+      "feature": "ZDx - Plasticizing time",
+      "anova_f": 204.78625647420347,
+      "mutual_info": 0.9482912233779937,
+      "abs_pearson": 0.34904812659473916,
+      "rf_importance": 0.15277029797492817,
+      "rank_anova_f": 5.0,
+      "rank_mutual_info": 2.0,
+      "rank_abs_pearson": 5.0,
+      "rank_rf_importance": 2.0,
+      "avg_rank": 3.5
+    },
+    {
+      "feature": "APVs - Specific injection pressure peak value",
+      "anova_f": 285.4557243852303,
+      "mutual_info": 0.672027012231907,
+      "abs_pearson": 0.4681518944416981,
+      "rf_importance": 0.10749567456815971,
+      "rank_anova_f": 2.0,
+      "rank_mutual_info": 8.0,
+      "rank_abs_pearson": 3.0,
+      "rank_rf_importance": 3.0,
+      "avg_rank": 4.0
+    },
+    {
+      "feature": "time_to_fill",
+      "anova_f": 229.96663708138496,
+      "mutual_info": 0.9130580177905256,
+      "abs_pearson": 0.4364782399995909,
+      "rf_importance": 0.09874405597772579,
+      "rank_anova_f": 4.0,
+      "rank_mutual_info": 5.0,
+      "rank_abs_pearson": 4.0,
+      "rank_rf_importance": 6.0,
+      "avg_rank": 4.75
+    },
+    {
+      "feature": "Mold temperature",
+      "anova_f": 282.5173028098853,
+      "mutual_info": 0.7260003303864679,
+      "abs_pearson": 0.5459303211378472,
+      "rf_importance": 0.08254898890656567,
+      "rank_anova_f": 3.0,
+      "rank_mutual_info": 7.0,
+      "rank_abs_pearson": 2.0,
+      "rank_rf_importance": 7.0,
+      "avg_rank": 4.75
+    },
+    {
+      "feature": "SKx - Closing force",
+      "anova_f": 155.4661728192224,
+      "mutual_info": 0.9548078829065394,
+      "abs_pearson": 0.06271550734569228,
+      "rf_importance": 0.10178572846350077,
+      "rank_anova_f": 8.0,
+      "rank_mutual_info": 1.0,
+      "rank_abs_pearson": 11.0,
+      "rank_rf_importance": 5.0,
+      "avg_rank": 6.25
+    },
+    {
+      "feature": "SKs - Clamping force peak value",
+      "anova_f": 118.94199938636193,
+      "mutual_info": 0.9167923206298292,
+      "abs_pearson": 0.0090776216175437,
+      "rf_importance": 0.10536669720333226,
+      "rank_anova_f": 9.0,
+      "rank_mutual_info": 4.0,
+      "rank_abs_pearson": 13.0,
+      "rank_rf_importance": 4.0,
+      "avg_rank": 7.5
+    },
+    {
+      "feature": "CPn - Screw position at the end of hold pressure",
+      "anova_f": 198.60232045308152,
+      "mutual_info": 0.4123552372358932,
+      "abs_pearson": 0.2273187022999173,
+      "rf_importance": 0.035492940063440025,
+      "rank_anova_f": 7.0,
+      "rank_mutual_info": 9.0,
+      "rank_abs_pearson": 6.0,
+      "rank_rf_importance": 9.0,
+      "avg_rank": 7.75
+    },
+    {
+      "feature": "SVo - Shot volume",
+      "anova_f": 202.4650559386401,
+      "mutual_info": 0.40819250478536917,
+      "abs_pearson": 0.20074155224993198,
+      "rf_importance": 0.03540316099926617,
+      "rank_anova_f": 6.0,
+      "rank_mutual_info": 10.0,
+      "rank_abs_pearson": 8.0,
+      "rank_rf_importance": 10.0,
+      "avg_rank": 8.5
+    },
+    {
+      "feature": "Melt temperature",
+      "anova_f": 18.58106768770829,
+      "mutual_info": 0.7735145650571875,
+      "abs_pearson": 0.16965014463690564,
+      "rf_importance": 0.05406854275882878,
+      "rank_anova_f": 11.0,
+      "rank_mutual_info": 6.0,
+      "rank_abs_pearson": 9.0,
+      "rank_rf_importance": 8.0,
+      "avg_rank": 8.5
+    },
+    {
+      "feature": "APSs - Specific back pressure peak value",
+      "anova_f": 31.530638141135196,
+      "mutual_info": 0.2114513928338213,
+      "abs_pearson": 0.2269447067828959,
+      "rf_importance": 0.014300637365115311,
+      "rank_anova_f": 10.0,
+      "rank_mutual_info": 13.0,
+      "rank_abs_pearson": 7.0,
+      "rank_rf_importance": 13.0,
+      "avg_rank": 10.75
+    },
+    {
+      "feature": "Mm - Torque mean value current cycle",
+      "anova_f": 18.241747929630865,
+      "mutual_info": 0.3807928112378123,
+      "abs_pearson": 0.08292509136973007,
+      "rf_importance": 0.025993918714337365,
+      "rank_anova_f": 12.0,
+      "rank_mutual_info": 11.0,
+      "rank_abs_pearson": 10.0,
+      "rank_rf_importance": 11.0,
+      "avg_rank": 11.0
+    },
+    {
+      "feature": "Ms - Torque peak value current cycle",
+      "anova_f": 8.247406498782748,
+      "mutual_info": 0.31238413814198185,
+      "abs_pearson": 0.04656847999244956,
+      "rf_importance": 0.01725335162821914,
+      "rank_anova_f": 13.0,
+      "rank_mutual_info": 12.0,
+      "rank_abs_pearson": 12.0,
+      "rank_rf_importance": 12.0,
+      "avg_rank": 12.25
+    }
+  ],
+  "preprocessing": [
+    {
+      "title": "Missing values",
+      "status": "ok",
+      "detail": "No missing values found."
+    },
+    {
+      "title": "Duplicate records",
+      "status": "ok",
+      "detail": "No duplicate rows found."
+    },
+    {
+      "title": "Target type",
+      "status": "ok",
+      "detail": "Target converted from float to integer class labels."
+    },
+    {
+      "title": "Constant features",
+      "status": "ok",
+      "detail": "No constant features found."
+    },
+    {
+      "title": "Outliers (IQR method)",
+      "status": "ok",
+      "detail": "Outliers are kept. This is real factory data, so extreme values are normal process variation."
+    },
+    {
+      "title": "Class balance",
+      "status": "ok",
+      "detail": "Classes are balanced. No resampling needed."
+    },
+    {
+      "title": "Train-test split",
+      "status": "ok",
+      "detail": "80/20 stratified split: 1160 training rows, 291 testing rows."
+    },
+    {
+      "title": "Feature scaling",
+      "status": "ok",
+      "detail": "StandardScaler is part of the Logistic Regression and SVM pipelines, so it is fitted on training data only."
+    },
+    {
+      "title": "Feature selection",
+      "status": "ok",
+      "detail": "Top 6 features by average rank of ANOVA, Mutual Information, Pearson and Random Forest importance."
+    }
+  ],
+  "split": {
+    "train": 1160,
+    "test": 291,
+    "rowsAfterCleaning": 1451
+  }
+}

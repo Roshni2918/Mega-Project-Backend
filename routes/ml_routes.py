@@ -7,8 +7,8 @@ from database import get_session
 from models import PredictionLog
 from routes.auth_routes import get_current_user
 
-# Add ml_final folder to sys.path
-ML_FINAL_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "ml_final"))
+# ML pipeline and artifacts are at the backend repository root
+ML_FINAL_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 ARTIFACTS_DIR = os.path.join(ML_FINAL_DIR, "ml_artifacts")
 
 if ML_FINAL_DIR not in sys.path:
